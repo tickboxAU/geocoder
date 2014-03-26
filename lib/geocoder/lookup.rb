@@ -38,7 +38,8 @@ module Geocoder
         :cloudmade,
         :geocodio,
         :smarty_streets,
-        :test
+        :test,
+        :fail
       ]
     end
 
@@ -50,7 +51,8 @@ module Geocoder
         :freegeoip,
         :maxmind,
         :maxmind_local,
-        :baidu_ip
+        :baidu_ip,
+        :fail
       ]
     end
 

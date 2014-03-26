@@ -5,7 +5,7 @@ require 'test_helper'
 class LookupTest < GeocoderTestCase
 
   def test_responds_to_name_method
-    Geocoder::Lookup.all_services.each do |l|
+    (Geocoder::Lookup.all_services - [:fail]).each do |l|
       lookup = Geocoder::Lookup.get(l)
       assert lookup.respond_to?(:name),
         "Lookup #{l} does not respond to #name method."
@@ -13,7 +13,7 @@ class LookupTest < GeocoderTestCase
   end
 
   def test_search_returns_empty_array_when_no_results
-    Geocoder::Lookup.all_services_except_test.each do |l|
+    (Geocoder::Lookup.all_services_except_test - [:fail]).each do |l|
       lookup = Geocoder::Lookup.get(l)
       set_api_key!(l)
       assert_equal [], lookup.send(:results, Geocoder::Query.new("no results")),
@@ -22,7 +22,7 @@ class LookupTest < GeocoderTestCase
   end
 
   def test_query_url_contains_values_in_params_hash
-    Geocoder::Lookup.all_services_except_test.each do |l|
+    (Geocoder::Lookup.all_services_except_test - [:fail]).each do |l|
       next if l == :freegeoip || l == :maxmind_local # does not use query string
       set_api_key!(l)
       url = Geocoder::Lookup.get(l).query_url(Geocoder::Query.new(
@@ -96,7 +96,7 @@ class LookupTest < GeocoderTestCase
   end
 
   def test_does_not_choke_on_nil_address
-    Geocoder::Lookup.all_services.each do |l|
+    (Geocoder::Lookup.all_services - [:fail]).each do |l|
       Geocoder.configure(:lookup => l)
       assert_nothing_raised { Place.new("Place", nil).geocode }
     end

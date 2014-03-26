@@ -18,4 +18,7 @@ module Geocoder
   class InvalidApiKey < Error
   end
 
+  class LookupDisabled < Error
+  end
+
 end

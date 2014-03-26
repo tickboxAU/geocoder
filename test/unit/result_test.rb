@@ -5,7 +5,7 @@ require 'test_helper'
 class ResultTest < GeocoderTestCase
 
   def test_result_has_required_attributes
-    Geocoder::Lookup.all_services_except_test.each do |l|
+    (Geocoder::Lookup.all_services_except_test - [:fail]).each do |l|
       Geocoder.configure(:lookup => l)
       set_api_key!(l)
       result = Geocoder.search([45.423733, -75.676333]).first

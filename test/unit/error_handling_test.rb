@@ -10,7 +10,7 @@ class ErrorHandlingTest < GeocoderTestCase
 
   def test_does_not_choke_on_timeout
     silence_warnings do
-      Geocoder::Lookup.all_services_except_test.each do |l|
+      (Geocoder::Lookup.all_services_except_test - [:fail]).each do |l|
         Geocoder.configure(:lookup => l)
         set_api_key!(l)
         assert_nothing_raised { Geocoder.search("timeout") }
@@ -20,7 +20,7 @@ class ErrorHandlingTest < GeocoderTestCase
 
   def test_always_raise_timeout_error
     Geocoder.configure(:always_raise => [TimeoutError])
-    Geocoder::Lookup.all_services_except_test.each do |l|
+    (Geocoder::Lookup.all_services_except_test - [:fail]).each do |l|
       next if l == :maxmind_local # local, does not raise timeout
       lookup = Geocoder::Lookup.get(l)
       set_api_key!(l)
@@ -32,7 +32,7 @@ class ErrorHandlingTest < GeocoderTestCase
 
   def test_always_raise_socket_error
     Geocoder.configure(:always_raise => [SocketError])
-    Geocoder::Lookup.all_services_except_test.each do |l|
+    (Geocoder::Lookup.all_services_except_test - [:fail]).each do |l|
       next if l == :maxmind_local # local, does not raise timeout
       lookup = Geocoder::Lookup.get(l)
       set_api_key!(l)
